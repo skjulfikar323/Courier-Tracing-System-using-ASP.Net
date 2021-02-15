@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CourierDBModelStoreContainer" CdmEntityContainer="CourierDBEntities">
+    <EntitySetMapping Name="Package">
+      <EntityTypeMapping TypeName="CourierDBModel.Package">
+        <MappingFragment StoreEntitySet="Package">
+          <ScalarProperty Name="ConsignmentID" ColumnName="ConsignmentID" />
+          <ScalarProperty Name="AcceptDate" ColumnName="AcceptDate" />
+          <ScalarProperty Name="PackageWeight" ColumnName="PackageWeight" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="SenderAddress" ColumnName="SenderAddress" />
+          <ScalarProperty Name="ReceiverAddress" ColumnName="ReceiverAddress" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="CurrentLocation" ColumnName="CurrentLocation" />
+          <ScalarProperty Name="PackageStatus" ColumnName="PackageStatus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Staff">
+      <EntityTypeMapping TypeName="CourierDBModel.Staff">
+        <MappingFragment StoreEntitySet="Staff">
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Salary" ColumnName="Salary" />
+          <ScalarProperty Name="Designation" ColumnName="Designation" />
+          <ScalarProperty Name="PermanentAddress" ColumnName="PermanentAddress" />
+          <ScalarProperty Name="CorrespondenceAddress" ColumnName="CorrespondenceAddress" />
+          <ScalarProperty Name="LoginType" ColumnName="LoginType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblLogin">
+      <EntityTypeMapping TypeName="CourierDBModel.tblLogin">
+        <MappingFragment StoreEntitySet="tblLogin">
+          <ScalarProperty Name="key" ColumnName="key" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="UserType" ColumnName="UserType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User">
+      <EntityTypeMapping TypeName="CourierDBModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="spAddPackage" FunctionName="CourierDBModel.Store.spAddPackage" />
+    <FunctionImportMapping FunctionImportName="spDeletePackageById" FunctionName="CourierDBModel.Store.spDeletePackageById" />
+    <FunctionImportMapping FunctionImportName="spGetPackageByConsignmentID" FunctionName="CourierDBModel.Store.spGetPackageByConsignmentID">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="CourierDBModel.spGetPackageByConsignmentID_Result">
+          <ScalarProperty Name="ConsignmentID" ColumnName="ConsignmentID" />
+          <ScalarProperty Name="AcceptDate" ColumnName="AcceptDate" />
+          <ScalarProperty Name="PackageWeight" ColumnName="PackageWeight" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="SenderAddress" ColumnName="SenderAddress" />
+          <ScalarProperty Name="ReceiverAddress" ColumnName="ReceiverAddress" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="CurrentLocation" ColumnName="CurrentLocation" />
+          <ScalarProperty Name="PackageStatus" ColumnName="PackageStatus" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="spGetPackageById" FunctionName="CourierDBModel.Store.spGetPackageById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="CourierDBModel.spGetPackageById_Result">
+          <ScalarProperty Name="ConsignmentID" ColumnName="ConsignmentID" />
+          <ScalarProperty Name="AcceptDate" ColumnName="AcceptDate" />
+          <ScalarProperty Name="PackageWeight" ColumnName="PackageWeight" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="SenderAddress" ColumnName="SenderAddress" />
+          <ScalarProperty Name="ReceiverAddress" ColumnName="ReceiverAddress" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="CurrentLocation" ColumnName="CurrentLocation" />
+          <ScalarProperty Name="PackageStatus" ColumnName="PackageStatus" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="spGetPackages" FunctionName="CourierDBModel.Store.spGetPackages">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="CourierDBModel.spGetPackages_Result">
+          <ScalarProperty Name="ConsignmentID" ColumnName="ConsignmentID" />
+          <ScalarProperty Name="AcceptDate" ColumnName="AcceptDate" />
+          <ScalarProperty Name="PackageWeight" ColumnName="PackageWeight" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="SenderAddress" ColumnName="SenderAddress" />
+          <ScalarProperty Name="ReceiverAddress" ColumnName="ReceiverAddress" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="CurrentLocation" ColumnName="CurrentLocation" />
+          <ScalarProperty Name="PackageStatus" ColumnName="PackageStatus" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="spPackageSearch" FunctionName="CourierDBModel.Store.spPackageSearch">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="CourierDBModel.spPackageSearch_Result">
+          <ScalarProperty Name="ConsignmentID" ColumnName="ConsignmentID" />
+          <ScalarProperty Name="AcceptDate" ColumnName="AcceptDate" />
+          <ScalarProperty Name="PackageWeight" ColumnName="PackageWeight" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="SenderAddress" ColumnName="SenderAddress" />
+          <ScalarProperty Name="ReceiverAddress" ColumnName="ReceiverAddress" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="CurrentLocation" ColumnName="CurrentLocation" />
+          <ScalarProperty Name="PackageStatus" ColumnName="PackageStatus" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="spStaffRegister" FunctionName="CourierDBModel.Store.spStaffRegister" />
+    <FunctionImportMapping FunctionImportName="spUpdatePackage" FunctionName="CourierDBModel.Store.spUpdatePackage" />
+    <FunctionImportMapping FunctionImportName="spUserLogin" FunctionName="CourierDBModel.Store.spUserLogin">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="CourierDBModel.spUserLogin_Result">
+          <ScalarProperty Name="key" ColumnName="key" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="UserType" ColumnName="UserType" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="spUserRegister" FunctionName="CourierDBModel.Store.spUserRegister" />
+  </EntityContainerMapping>
+</Mapping>

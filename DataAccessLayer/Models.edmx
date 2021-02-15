@@ -1,0 +1,547 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CourierDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Package">
+          <Key>
+            <PropertyRef Name="ConsignmentID" />
+          </Key>
+          <Property Name="ConsignmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AcceptDate" Type="date" Nullable="false" />
+          <Property Name="PackageWeight" Type="float" Nullable="false" />
+          <Property Name="Cost" Type="float" Nullable="false" />
+          <Property Name="SenderAddress" Type="varchar" MaxLength="100" />
+          <Property Name="ReceiverAddress" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="EmployeeID" Type="int" Nullable="false" />
+          <Property Name="CurrentLocation" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="PackageStatus" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Gender" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ContactNumber" Type="bigint" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Salary" Type="int" Nullable="false" />
+          <Property Name="Designation" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="PermanentAddress" Type="varchar" MaxLength="100" />
+          <Property Name="CorrespondenceAddress" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="LoginType" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblLogin">
+          <Key>
+            <PropertyRef Name="key" />
+          </Key>
+          <Property Name="key" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserType" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" />
+          <Property Name="Gender" Type="varchar" MaxLength="20" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ContactNumber" Type="bigint" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Package_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+          <End Role="Package" Type="Self.Package" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Package">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Package_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Package" Type="Self.Package" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Package">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="spAddPackage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="acceptDate" Type="date" Mode="In" />
+          <Parameter Name="packageWeight" Type="float" Mode="In" />
+          <Parameter Name="cost" Type="float" Mode="In" />
+          <Parameter Name="senderAddress" Type="varchar" Mode="In" />
+          <Parameter Name="receiverAddress" Type="varchar" Mode="In" />
+          <Parameter Name="customerID" Type="int" Mode="In" />
+          <Parameter Name="employeeID" Type="int" Mode="In" />
+          <Parameter Name="currentLocation" Type="varchar" Mode="In" />
+          <Parameter Name="packageStatus" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spDeletePackageById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="consignmentId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spGetPackageByConsignmentID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spGetPackageById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spGetPackages" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spPackageSearch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="key" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spStaffRegister" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="first_Name" Type="varchar" Mode="In" />
+          <Parameter Name="last_Name" Type="varchar" Mode="In" />
+          <Parameter Name="gender" Type="varchar" Mode="In" />
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="varchar" Mode="In" />
+          <Parameter Name="contactNumber" Type="bigint" Mode="In" />
+          <Parameter Name="salary" Type="int" Mode="In" />
+          <Parameter Name="designation" Type="varchar" Mode="In" />
+          <Parameter Name="permanentAddr" Type="varchar" Mode="In" />
+          <Parameter Name="correspondenceAddr" Type="varchar" Mode="In" />
+          <Parameter Name="loginType" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spUpdatePackage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="consignmentId" Type="int" Mode="In" />
+          <Parameter Name="acceptDate" Type="date" Mode="In" />
+          <Parameter Name="packageWeight" Type="float" Mode="In" />
+          <Parameter Name="cost" Type="float" Mode="In" />
+          <Parameter Name="senderAddress" Type="varchar" Mode="In" />
+          <Parameter Name="receiverAddress" Type="varchar" Mode="In" />
+          <Parameter Name="customerID" Type="int" Mode="In" />
+          <Parameter Name="employeeID" Type="int" Mode="In" />
+          <Parameter Name="currentLocation" Type="varchar" Mode="In" />
+          <Parameter Name="packageStatus" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spUserLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userName" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="varchar" Mode="In" />
+          <Parameter Name="userType" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spUserRegister" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="first_Name" Type="varchar" Mode="In" />
+          <Parameter Name="last_Name" Type="varchar" Mode="In" />
+          <Parameter Name="gender" Type="varchar" Mode="In" />
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="varchar" Mode="In" />
+          <Parameter Name="contactNumber" Type="bigint" Mode="In" />
+        </Function>
+        <EntityContainer Name="CourierDBModelStoreContainer">
+          <EntitySet Name="Package" EntityType="Self.Package" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblLogin" EntityType="Self.tblLogin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Package_Staff" Association="Self.FK_Package_Staff">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="Package" EntitySet="Package" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Package_User" Association="Self.FK_Package_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Package" EntitySet="Package" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CourierDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Package">
+          <Key>
+            <PropertyRef Name="ConsignmentID" />
+          </Key>
+          <Property Name="ConsignmentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AcceptDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PackageWeight" Type="Double" Nullable="false" />
+          <Property Name="Cost" Type="Double" Nullable="false" />
+          <Property Name="SenderAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ReceiverAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" />
+          <Property Name="CurrentLocation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PackageStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Staff" Relationship="Self.FK_Package_Staff" FromRole="Package" ToRole="Staff" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Package_User" FromRole="Package" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ContactNumber" Type="Int64" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Salary" Type="Int32" Nullable="false" />
+          <Property Name="Designation" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PermanentAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CorrespondenceAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LoginType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Package" Relationship="Self.FK_Package_Staff" FromRole="Staff" ToRole="Package" />
+        </EntityType>
+        <EntityType Name="tblLogin">
+          <Key>
+            <PropertyRef Name="key" />
+          </Key>
+          <Property Name="key" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Gender" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ContactNumber" Type="Int64" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Package" Relationship="Self.FK_Package_User" FromRole="User" ToRole="Package" />
+        </EntityType>
+        <Association Name="FK_Package_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+          <End Role="Package" Type="Self.Package" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Package">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Package_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Package" Type="Self.Package" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Package">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CourierDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Package" EntityType="Self.Package" />
+          <EntitySet Name="Staff" EntityType="Self.Staff" />
+          <EntitySet Name="tblLogin" EntityType="Self.tblLogin" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <AssociationSet Name="FK_Package_Staff" Association="Self.FK_Package_Staff">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="Package" EntitySet="Package" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Package_User" Association="Self.FK_Package_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Package" EntitySet="Package" />
+          </AssociationSet>
+          <FunctionImport Name="spAddPackage">
+            <Parameter Name="acceptDate" Mode="In" Type="DateTime" />
+            <Parameter Name="packageWeight" Mode="In" Type="Double" />
+            <Parameter Name="cost" Mode="In" Type="Double" />
+            <Parameter Name="senderAddress" Mode="In" Type="String" />
+            <Parameter Name="receiverAddress" Mode="In" Type="String" />
+            <Parameter Name="customerID" Mode="In" Type="Int32" />
+            <Parameter Name="employeeID" Mode="In" Type="Int32" />
+            <Parameter Name="currentLocation" Mode="In" Type="String" />
+            <Parameter Name="packageStatus" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spDeletePackageById">
+            <Parameter Name="consignmentId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetPackageByConsignmentID" ReturnType="Collection(CourierDBModel.spGetPackageByConsignmentID_Result)">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetPackageById" ReturnType="Collection(CourierDBModel.spGetPackageById_Result)">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetPackages" ReturnType="Collection(CourierDBModel.spGetPackages_Result)" />
+          <FunctionImport Name="spPackageSearch" ReturnType="Collection(CourierDBModel.spPackageSearch_Result)">
+            <Parameter Name="key" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spStaffRegister">
+            <Parameter Name="first_Name" Mode="In" Type="String" />
+            <Parameter Name="last_Name" Mode="In" Type="String" />
+            <Parameter Name="gender" Mode="In" Type="String" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+            <Parameter Name="contactNumber" Mode="In" Type="Int64" />
+            <Parameter Name="salary" Mode="In" Type="Int32" />
+            <Parameter Name="designation" Mode="In" Type="String" />
+            <Parameter Name="permanentAddr" Mode="In" Type="String" />
+            <Parameter Name="correspondenceAddr" Mode="In" Type="String" />
+            <Parameter Name="loginType" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spUpdatePackage">
+            <Parameter Name="consignmentId" Mode="In" Type="Int32" />
+            <Parameter Name="acceptDate" Mode="In" Type="DateTime" />
+            <Parameter Name="packageWeight" Mode="In" Type="Double" />
+            <Parameter Name="cost" Mode="In" Type="Double" />
+            <Parameter Name="senderAddress" Mode="In" Type="String" />
+            <Parameter Name="receiverAddress" Mode="In" Type="String" />
+            <Parameter Name="customerID" Mode="In" Type="Int32" />
+            <Parameter Name="employeeID" Mode="In" Type="Int32" />
+            <Parameter Name="currentLocation" Mode="In" Type="String" />
+            <Parameter Name="packageStatus" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spUserLogin" ReturnType="Collection(CourierDBModel.spUserLogin_Result)">
+            <Parameter Name="userName" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+            <Parameter Name="userType" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spUserRegister">
+            <Parameter Name="first_Name" Mode="In" Type="String" />
+            <Parameter Name="last_Name" Mode="In" Type="String" />
+            <Parameter Name="gender" Mode="In" Type="String" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+            <Parameter Name="contactNumber" Mode="In" Type="Int64" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="spGetPackageByConsignmentID_Result">
+          <Property Type="Int32" Name="ConsignmentID" Nullable="false" />
+          <Property Type="DateTime" Name="AcceptDate" Nullable="false" />
+          <Property Type="Double" Name="PackageWeight" Nullable="false" />
+          <Property Type="Double" Name="Cost" Nullable="false" />
+          <Property Type="String" Name="SenderAddress" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ReceiverAddress" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="CustomerID" Nullable="false" />
+          <Property Type="Int32" Name="EmployeeID" Nullable="false" />
+          <Property Type="String" Name="CurrentLocation" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="PackageStatus" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spGetPackageById_Result">
+          <Property Type="Int32" Name="ConsignmentID" Nullable="false" />
+          <Property Type="DateTime" Name="AcceptDate" Nullable="false" />
+          <Property Type="Double" Name="PackageWeight" Nullable="false" />
+          <Property Type="Double" Name="Cost" Nullable="false" />
+          <Property Type="String" Name="SenderAddress" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ReceiverAddress" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="CustomerID" Nullable="false" />
+          <Property Type="Int32" Name="EmployeeID" Nullable="false" />
+          <Property Type="String" Name="CurrentLocation" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="PackageStatus" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spGetPackages_Result">
+          <Property Type="Int32" Name="ConsignmentID" Nullable="false" />
+          <Property Type="DateTime" Name="AcceptDate" Nullable="false" />
+          <Property Type="Double" Name="PackageWeight" Nullable="false" />
+          <Property Type="Double" Name="Cost" Nullable="false" />
+          <Property Type="String" Name="SenderAddress" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ReceiverAddress" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="CustomerID" Nullable="false" />
+          <Property Type="Int32" Name="EmployeeID" Nullable="false" />
+          <Property Type="String" Name="CurrentLocation" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="PackageStatus" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spPackageSearch_Result">
+          <Property Type="Int32" Name="ConsignmentID" Nullable="false" />
+          <Property Type="DateTime" Name="AcceptDate" Nullable="false" />
+          <Property Type="Double" Name="PackageWeight" Nullable="false" />
+          <Property Type="Double" Name="Cost" Nullable="false" />
+          <Property Type="String" Name="SenderAddress" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ReceiverAddress" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="CustomerID" Nullable="false" />
+          <Property Type="Int32" Name="EmployeeID" Nullable="false" />
+          <Property Type="String" Name="CurrentLocation" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="PackageStatus" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spUserLogin_Result">
+          <Property Type="Int32" Name="key" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="UserType" Nullable="true" MaxLength="20" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CourierDBModelStoreContainer" CdmEntityContainer="CourierDBEntities">
+          <EntitySetMapping Name="Package">
+            <EntityTypeMapping TypeName="CourierDBModel.Package">
+              <MappingFragment StoreEntitySet="Package">
+                <ScalarProperty Name="ConsignmentID" ColumnName="ConsignmentID" />
+                <ScalarProperty Name="AcceptDate" ColumnName="AcceptDate" />
+                <ScalarProperty Name="PackageWeight" ColumnName="PackageWeight" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="SenderAddress" ColumnName="SenderAddress" />
+                <ScalarProperty Name="ReceiverAddress" ColumnName="ReceiverAddress" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="CurrentLocation" ColumnName="CurrentLocation" />
+                <ScalarProperty Name="PackageStatus" ColumnName="PackageStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Staff">
+            <EntityTypeMapping TypeName="CourierDBModel.Staff">
+              <MappingFragment StoreEntitySet="Staff">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="PermanentAddress" ColumnName="PermanentAddress" />
+                <ScalarProperty Name="CorrespondenceAddress" ColumnName="CorrespondenceAddress" />
+                <ScalarProperty Name="LoginType" ColumnName="LoginType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblLogin">
+            <EntityTypeMapping TypeName="CourierDBModel.tblLogin">
+              <MappingFragment StoreEntitySet="tblLogin">
+                <ScalarProperty Name="key" ColumnName="key" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="CourierDBModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spAddPackage" FunctionName="CourierDBModel.Store.spAddPackage" />
+          <FunctionImportMapping FunctionImportName="spDeletePackageById" FunctionName="CourierDBModel.Store.spDeletePackageById" />
+          <FunctionImportMapping FunctionImportName="spGetPackageByConsignmentID" FunctionName="CourierDBModel.Store.spGetPackageByConsignmentID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CourierDBModel.spGetPackageByConsignmentID_Result">
+                <ScalarProperty Name="ConsignmentID" ColumnName="ConsignmentID" />
+                <ScalarProperty Name="AcceptDate" ColumnName="AcceptDate" />
+                <ScalarProperty Name="PackageWeight" ColumnName="PackageWeight" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="SenderAddress" ColumnName="SenderAddress" />
+                <ScalarProperty Name="ReceiverAddress" ColumnName="ReceiverAddress" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="CurrentLocation" ColumnName="CurrentLocation" />
+                <ScalarProperty Name="PackageStatus" ColumnName="PackageStatus" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetPackageById" FunctionName="CourierDBModel.Store.spGetPackageById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CourierDBModel.spGetPackageById_Result">
+                <ScalarProperty Name="ConsignmentID" ColumnName="ConsignmentID" />
+                <ScalarProperty Name="AcceptDate" ColumnName="AcceptDate" />
+                <ScalarProperty Name="PackageWeight" ColumnName="PackageWeight" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="SenderAddress" ColumnName="SenderAddress" />
+                <ScalarProperty Name="ReceiverAddress" ColumnName="ReceiverAddress" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="CurrentLocation" ColumnName="CurrentLocation" />
+                <ScalarProperty Name="PackageStatus" ColumnName="PackageStatus" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetPackages" FunctionName="CourierDBModel.Store.spGetPackages">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CourierDBModel.spGetPackages_Result">
+                <ScalarProperty Name="ConsignmentID" ColumnName="ConsignmentID" />
+                <ScalarProperty Name="AcceptDate" ColumnName="AcceptDate" />
+                <ScalarProperty Name="PackageWeight" ColumnName="PackageWeight" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="SenderAddress" ColumnName="SenderAddress" />
+                <ScalarProperty Name="ReceiverAddress" ColumnName="ReceiverAddress" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="CurrentLocation" ColumnName="CurrentLocation" />
+                <ScalarProperty Name="PackageStatus" ColumnName="PackageStatus" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spPackageSearch" FunctionName="CourierDBModel.Store.spPackageSearch">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CourierDBModel.spPackageSearch_Result">
+                <ScalarProperty Name="ConsignmentID" ColumnName="ConsignmentID" />
+                <ScalarProperty Name="AcceptDate" ColumnName="AcceptDate" />
+                <ScalarProperty Name="PackageWeight" ColumnName="PackageWeight" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="SenderAddress" ColumnName="SenderAddress" />
+                <ScalarProperty Name="ReceiverAddress" ColumnName="ReceiverAddress" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="CurrentLocation" ColumnName="CurrentLocation" />
+                <ScalarProperty Name="PackageStatus" ColumnName="PackageStatus" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spStaffRegister" FunctionName="CourierDBModel.Store.spStaffRegister" />
+          <FunctionImportMapping FunctionImportName="spUpdatePackage" FunctionName="CourierDBModel.Store.spUpdatePackage" />
+          <FunctionImportMapping FunctionImportName="spUserLogin" FunctionName="CourierDBModel.Store.spUserLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CourierDBModel.spUserLogin_Result">
+                <ScalarProperty Name="key" ColumnName="key" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spUserRegister" FunctionName="CourierDBModel.Store.spUserRegister" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

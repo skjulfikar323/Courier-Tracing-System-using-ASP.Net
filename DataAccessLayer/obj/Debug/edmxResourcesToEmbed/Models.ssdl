@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CourierDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Package">
+    <Key>
+      <PropertyRef Name="ConsignmentID" />
+    </Key>
+    <Property Name="ConsignmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AcceptDate" Type="date" Nullable="false" />
+    <Property Name="PackageWeight" Type="float" Nullable="false" />
+    <Property Name="Cost" Type="float" Nullable="false" />
+    <Property Name="SenderAddress" Type="varchar" MaxLength="100" />
+    <Property Name="ReceiverAddress" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="CustomerID" Type="int" Nullable="false" />
+    <Property Name="EmployeeID" Type="int" Nullable="false" />
+    <Property Name="CurrentLocation" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="PackageStatus" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Staff">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Gender" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ContactNumber" Type="bigint" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Salary" Type="int" Nullable="false" />
+    <Property Name="Designation" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="PermanentAddress" Type="varchar" MaxLength="100" />
+    <Property Name="CorrespondenceAddress" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="LoginType" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblLogin">
+    <Key>
+      <PropertyRef Name="key" />
+    </Key>
+    <Property Name="key" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserType" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" />
+    <Property Name="Gender" Type="varchar" MaxLength="20" />
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ContactNumber" Type="bigint" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Package_Staff">
+    <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+    <End Role="Package" Type="Self.Package" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Staff">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Package">
+        <PropertyRef Name="EmployeeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Package_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Package" Type="Self.Package" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Package">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="spAddPackage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="acceptDate" Type="date" Mode="In" />
+    <Parameter Name="packageWeight" Type="float" Mode="In" />
+    <Parameter Name="cost" Type="float" Mode="In" />
+    <Parameter Name="senderAddress" Type="varchar" Mode="In" />
+    <Parameter Name="receiverAddress" Type="varchar" Mode="In" />
+    <Parameter Name="customerID" Type="int" Mode="In" />
+    <Parameter Name="employeeID" Type="int" Mode="In" />
+    <Parameter Name="currentLocation" Type="varchar" Mode="In" />
+    <Parameter Name="packageStatus" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="spDeletePackageById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="consignmentId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="spGetPackageByConsignmentID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="spGetPackageById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="spGetPackages" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="spPackageSearch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="key" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="spStaffRegister" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="first_Name" Type="varchar" Mode="In" />
+    <Parameter Name="last_Name" Type="varchar" Mode="In" />
+    <Parameter Name="gender" Type="varchar" Mode="In" />
+    <Parameter Name="email" Type="varchar" Mode="In" />
+    <Parameter Name="password" Type="varchar" Mode="In" />
+    <Parameter Name="contactNumber" Type="bigint" Mode="In" />
+    <Parameter Name="salary" Type="int" Mode="In" />
+    <Parameter Name="designation" Type="varchar" Mode="In" />
+    <Parameter Name="permanentAddr" Type="varchar" Mode="In" />
+    <Parameter Name="correspondenceAddr" Type="varchar" Mode="In" />
+    <Parameter Name="loginType" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="spUpdatePackage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="consignmentId" Type="int" Mode="In" />
+    <Parameter Name="acceptDate" Type="date" Mode="In" />
+    <Parameter Name="packageWeight" Type="float" Mode="In" />
+    <Parameter Name="cost" Type="float" Mode="In" />
+    <Parameter Name="senderAddress" Type="varchar" Mode="In" />
+    <Parameter Name="receiverAddress" Type="varchar" Mode="In" />
+    <Parameter Name="customerID" Type="int" Mode="In" />
+    <Parameter Name="employeeID" Type="int" Mode="In" />
+    <Parameter Name="currentLocation" Type="varchar" Mode="In" />
+    <Parameter Name="packageStatus" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="spUserLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userName" Type="varchar" Mode="In" />
+    <Parameter Name="password" Type="varchar" Mode="In" />
+    <Parameter Name="userType" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="spUserRegister" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="first_Name" Type="varchar" Mode="In" />
+    <Parameter Name="last_Name" Type="varchar" Mode="In" />
+    <Parameter Name="gender" Type="varchar" Mode="In" />
+    <Parameter Name="email" Type="varchar" Mode="In" />
+    <Parameter Name="password" Type="varchar" Mode="In" />
+    <Parameter Name="contactNumber" Type="bigint" Mode="In" />
+  </Function>
+  <EntityContainer Name="CourierDBModelStoreContainer">
+    <EntitySet Name="Package" EntityType="Self.Package" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblLogin" EntityType="Self.tblLogin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Package_Staff" Association="Self.FK_Package_Staff">
+      <End Role="Staff" EntitySet="Staff" />
+      <End Role="Package" EntitySet="Package" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Package_User" Association="Self.FK_Package_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Package" EntitySet="Package" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
